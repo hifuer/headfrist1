@@ -38,4 +38,16 @@ Palin
 >>> cast.insert(0,"Chapman")
 >>> cast
 ['Chapman', 'Cleese', 'Palin', 'Jones', 'Idle', 'Gilliam']
->>> 
+
+
+“""
+1.创建文件夹 把模块拷贝到文件夹中
+2.在文件夹中创建“setup.py”文件
+3.构建一个发布文件
+"""
+$python setup.py sdist 
+
+"""
+4.将发布安装到python本地副本中
+"""
+$python setup.py install

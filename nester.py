@@ -2,7 +2,7 @@
         ["Graham Chapman",["Michael Palin","John Cleese",
                            "Terry Gilliam","Eric Idle","Terry Jones"]]]"""
 "定义方法"
-def print_lol(the_list,level):
+def print_lol(the_list,level=0):
     for each_item in the_list:
         "检查是否为list 列表"
         if isinstance(each_item,list):

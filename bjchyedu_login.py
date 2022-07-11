@@ -20,9 +20,9 @@ python login.py
 简单的方法：配置好login.py 默认 python打开   并添加到开始启动项  
 '''
 import requests
-name='sssy001'
+name='您的手机号'
 password='123456'
-ip='58.116.49.88'
+ip='您的IP地址'
 #urls 有三个地址:分别是注销，登录，测试
 def login(name,password,ip):
 	urls=['http://rz.bjchyedu.cn:801/eportal/?c=Portal&a=login&callback=dr1657497322305&login_method=1&user_account={}&user_password={}&wlan_user_ip={}'.format(name,password,ip),'https://hao.360.com/?src=lm&ls=n792a71ec92']

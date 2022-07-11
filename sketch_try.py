@@ -1,14 +1,17 @@
 import os
-"""判断文件是否存在"""
-if os.path.exists("sketch.txt"):
+
+"""用异常 处理文件不存在"""
+try:
 	data=open('sketch.txt')
+	"""用异常 处理错误的发生在预料中..."""
 	for each_line in data:
-	    if not each_line.find(":")==-1:
+	    try:
 	        (role,line_spoken)=each_line.split(':',1)
 	        print(role,end='')
 	        print(" said: ",end='')
 	        print(line_spoken,end='')
-	        
+	    except ValueError:
+	    	pass
 	data.close()
-else:
-	print("The data file is missing")
+except IOError:
+	print('The data file is missing!')

@@ -20,6 +20,14 @@ try:
 	data.close()
 except IOError:
 	print('The data file is missing!')
-
-print(man)
-print	(other)
+"""将文件命名为 man_data.txt和other_data.txt 用try/except 避免IOError"""
+try:
+	man_flie=open('man_data.txt','w')
+	other_file=open('other_data.txt','w')
+	print(man,file=man_flie)
+	print	(other,file=other_file)
+except IOError:
+	print("File error")
+finally:
+	man_flie.close()
+	other_file.close()

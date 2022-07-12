@@ -121,15 +121,7 @@ Man said:  Is this the right room for an argument?
 Other Man said:  I've told you once.
 Man said:  No you haven't!
 Other Man said:  Yes I have.
-Man said:  When?
-Other Man said:  Just now.
-Man said:  No you didn't!
-Other Man said:  Yes I did!
-Man said:  You didn't!
-Other Man said:  I'm telling you, I did!
-Man said:  You did not!
-Other Man said:  Oh I'm sorry, is this a five minute argument, or the full half hour?
-Man said:  Ah! (taking out his wallet and paying) Just the five minutes.
+...
 Other Man said:  Just the five minutes. Thank you.
 Other Man said:  Anyway, I did.
 Man said:  You most certainly did not!
@@ -211,37 +203,13 @@ data.close()
 Man said:  Is this the right room for an argument?
 Other Man said:  I've told you once.
 Man said:  No you haven't!
-Other Man said:  Yes I have.
-Man said:  When?
-Other Man said:  Just now.
-Man said:  No you didn't!
-Other Man said:  Yes I did!
-Man said:  You didn't!
-Other Man said:  I'm telling you, I did!
-Man said:  You did not!
-Other Man said:  Oh I'm sorry, is this a five minute argument, or the full half hour?
-Man said:  Ah! (taking out his wallet and paying) Just the five minutes.
-Other Man said:  Just the five minutes. Thank you.
+.....
 Other Man said:  Anyway, I did.
 Man said:  You most certainly did not!
 Other Man said:  Now let's get one thing quite clear: I most definitely told you!
 Man said:  Oh no you didn't!
 Other Man said:  Oh yes I did!
-Man said:  Oh no you didn't!
-Other Man said:  Oh yes I did!
-Man said:  Oh look, this isn't an argument!
-Other Man said:  Yes it is!
-Man said:  No it isn't!
-Man said:  It's just contradiction!
-Other Man said:  No it isn't!
-Man said:  It IS!
-Other Man said:  It is NOT!
-Man said:  You just contradicted me!
-Other Man said:  No I didn't!
-Man said:  You DID!
-Other Man said:  No no no!
-Man said:  You did just then!
-Other Man said:  Nonsense!
+......
 Man said:  (exasperated) Oh, this is futile!!
 Other Man said:  No it isn't!
 Man said:  Yes it is!
@@ -274,3 +242,260 @@ data.close()
 
 
 """成功读取文件"""
+
+
+实例 sktch_try.py ，sketch.py 处理文件不存在的情况 
+实际应用中sktch_try.py 更为灵活
+
+
+
+"""4章 持久存储"""
+
+实例 sketchChuli.py
+
+import os
+
+man=[]
+other=[]
+"""用异常 处理文件不存在"""
+try:
+	data=open('sketch.txt')
+	"""用异常 处理错误的发生在预料中..."""
+	for each_line in data:
+	    try:
+	        (role,line_spoken)=each_line.split(':',1)
+	        """strip() 去除空白符"""
+	        line_spoken=line_spoken.strip()
+	        if role =='Man':
+	        	man.append(line_spoken)
+	       	elif role =='Other Man':
+	       		other.append(line_spoken)        
+	    except ValueError:
+	    	pass
+	data.close()
+except IOError:
+	print('The data file is missing!')
+
+print(man)
+print	(other)
+
+"""运行结果"""
+['Is this the right room for an argument?', "No you haven't!", 'When?', "No you didn't!", "You didn't!", 'You did not!', 'Ah! (taking out his wallet and paying) Just the five minutes.', 'You most certainly did not!', "Oh no you didn't!", "Oh no you didn't!", "Oh look, this isn't an argument!", "No it isn't!", "It's just contradiction!", 'It IS!', 'You just contradicted me!', 'You DID!', 'You did just then!', '(exasperated) Oh, this is futile!!', 'Yes it is!']
+["I've told you once.", 'Yes I have.', 'Just now.', 'Yes I did!', "I'm telling you, I did!", "Oh I'm sorry, is this a five minute argument, or the full half hour?", 'Just the five minutes. Thank you.', 'Anyway, I did.', "Now let's get one thing quite clear: I most definitely told you!", 'Oh yes I did!', 'Oh yes I did!', 'Yes it is!', "No it isn't!", 'It is NOT!', "No I didn't!", 'No no no!', 'Nonsense!', "No it isn't!"]
+
+***Repl Closed***
+"""以写模式打开文件"""
+ 格式 out=open("data.out","w")
+
+ out 数据对象
+ data.out 所写文件的文件名
+ w 要使用的访问模式 文件存在清空内容 追加一个文件 用a 完成写和读(不清除) 用w+ 
+
+>>> out=open("data.out","w")
+>>> print("Norwegian Blues stun easily.",file=out)
+>>> out.close()
+>>> 
+"""写入磁盘文件"""
+修改实例 sketchChuli.py print 部分为 运行后 磁盘多了 man_data.txt other_data.txt 
+
+try:
+	man_flie=open('man_data.txt','w')
+	other_file=open('other_data.txt','w')
+	print(man,file=man_flie)
+	print	(other,file=other_file)
+	man_flie.close()
+	other_file.close()
+except IOError:
+	print("File error")
+假设
+try:   ok
+	man_flie=open('man_data.txt','w') ok
+	other_file=open('other_data.txt','w') ok
+	print(man,file=man_flie) ok
+	print	(other,file=other_file)  no ok"""有问题 后close()就不会运行"""
+	man_flie.close() no 
+	other_file.close() no
+except IOError: ok
+	print("File error")ok
+
+"""finally: 不论什么情况，总会运行"""
+try:
+	man_flie=open('man_data.txt','w')
+	other_file=open('other_data.txt','w')
+	print(man,file=man_flie)
+	print	(other,file=other_file)
+except IOError:
+	print("File error")
+finally:
+	man_flie.close()
+	other_file.close()
+
+"""试图打开不存在的文件missing.txt""''
+>>> try:
+	data=open('missing.txt')
+	print(data.readline(),end='')
+except IOError:
+	print('File error')
+finally:
+	data.close()
+
+	
+File error
+Traceback (most recent call last):
+  File "<pyshell#19>", line 7, in <module>
+    data.close()
+NameError: name 'data' is not defined
+>>> 
+"""稍作修改 就不在报错 in  检测成员关系"""
+>>> try:
+	data=open('missing.txt')
+	print(data.readline(),end='')
+except IOError:
+	print('File error')
+finally:
+	if 'data' in locals():
+		data.close()
+
+		
+File error
+>>> 
+"""想要错误信息 再做修改后 又报错了 str"""
+>>> try:
+	data=open('missing.txt')
+	print(data.readline(),end='')
+except IOError as err:
+	print('File error'+err) 
+finally:
+	if 'data' in locals():
+		data.close()
+
+		
+Traceback (most recent call last):
+  File "<pyshell#23>", line 2, in <module>
+    data=open('missing.txt')
+FileNotFoundError: [Errno 2] No such file or directory: 'missing.txt'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<pyshell#23>", line 5, in <module>
+    print('File error'+err)
+TypeError: can only concatenate str (not "FileNotFoundError") to str
+
+
+"""再做修改 报错更详细"""
+>>> try:
+	data=open('missing.txt')
+	print(data.readline(),end='')
+except IOError as err:
+	print('File error'+str(err)) 
+finally:
+	if 'data' in locals():
+		data.close()
+
+		
+File error[Errno 2] No such file or directory: 'missing.txt'
+>>> 
+
+实例 sketchChuliwith.py  
+import os
+
+man=[]
+other=[]
+"""用异常 处理文件不存在"""
+try:
+	data=open('sketch.txt')
+	"""用异常 处理错误的发生在预料中..."""
+	for each_line in data:
+	    try:
+	        (role,line_spoken)=each_line.split(':',1)
+	        """strip() 去除空白符"""
+	        line_spoken=line_spoken.strip()
+	        if role =='Man':
+	        	man.append(line_spoken)
+	       	elif role =='Other Man':
+	       		other.append(line_spoken)        
+	    except ValueError:
+	    	pass
+	data.close()
+except IOError:
+	print('The data file is missing!')
+"""将文件命名为 man_data.txt和other_data.txt 用try/except 避免IOError"""
+"""with 代替 finally with 完成了关闭文件工作"""
+try:
+	with open('man_data.txt','w') as man_flie, open('other_data.txt','w') as other_file:
+		print(man,file=man_flie)
+		print	(other,file=other_file)
+except IOError as err:
+	print("File error"+str(err))
+
+文件的读取 
+>>> with open("man_data.txt") as mdf:
+	print(mdf.readline())
+
+	
+['Is this the right room for an argument?', "No you haven't!", 'When?', "No you didn't!", "You didn't!", 'You did not!', 'Ah! (taking out his wallet and paying) Just the five minutes.', 'You most certainly did not!', "Oh no you didn't!", "Oh no you didn't!", "Oh look, this isn't an argument!", "No it isn't!", "It's just contradiction!", 'It IS!', 'You just contradicted me!', 'You DID!', 'You did just then!', '(exasperated) Oh, this is futile!!', 'Yes it is!']
+
+
+
+标准输出（Standard Output)  sys.stdout 
+
+修改第二章print_lol()函数
+源文件：
+def print_lol(the_list,indent=False,level=0):
+    for each_item in the_list:
+        "检查是否为list 列表"
+        if isinstance(each_item,list):
+            print_lol(each_item,indent,level+1)
+        else:
+        	if indent:
+	            for tab_stop in range(level):
+	        	    print("\t",end='')
+	        print(each_item)
+
+修改：
+import sys
+def print_lol(the_list,indent=False,level=0, fn=sys.stdout):
+    for each_item in the_list:
+        "检查是否为list 列表"
+        if isinstance(each_item,list):
+            print_lol(each_item,indent,level+1,fn)
+        else:
+        	if indent:
+	            for tab_stop in range(level):
+	        	    print("\t",end='',file=fn)
+	        print(each_item,file=fn)
+
+
+"""引入print_lol()方法 修改后"""
+import os
+import nester
+
+man=[]
+other=[]
+"""用异常 处理文件不存在"""
+try:
+	data=open('sketch.txt')
+	"""用异常 处理错误的发生在预料中..."""
+	for each_line in data:
+	    try:
+	        (role,line_spoken)=each_line.split(':',1)
+	        """strip() 去除空白符"""
+	        line_spoken=line_spoken.strip()
+	        if role =='Man':
+	        	man.append(line_spoken)
+	       	elif role =='Other Man':
+	       		other.append(line_spoken)        
+	    except ValueError:
+	    	pass
+	data.close()
+except IOError:
+	print('The data file is missing!')
+"""将文件命名为 man_data.txt和other_data.txt 用try/except 避免IOError"""
+"""with 代替 finally with 完成了关闭文件工作"""
+try:
+	with open('man_data.txt','w') as man_flie, open('other_data.txt','w') as other_file:
+		nester.print_lol(man,fn=man_flie)
+		nester.print_lol(other,fn=other_file)
+except IOError as err:
+	print("File error"+str(err))

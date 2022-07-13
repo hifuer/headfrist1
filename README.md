@@ -499,3 +499,77 @@ try:
 		nester.print_lol(other,fn=other_file)
 except IOError as err:
 	print("File error"+str(err))
+
+
+"""pickle库 它可以保存和加载几乎任何python数据对象，包括列表"""
+
+
+小实例：
+>>> import pickle
+>>> with open("mydata.pickle",'wb') as mysavedata:
+	pickle.dump([1,2,'three'],mysavedata)
+
+>>> with open('mydata.pickle','rb') as myrestoredata:
+	a_list=pickle.load(myrestoredata)
+	print(a_list)
+
+	
+[1, 2, 'three']
+>>> 
+
+将数据pickle 修改保存部分
+
+"""pickle.dump() 代替nester.print_lol()"""
+
+import pickle
+....
+
+try:
+	with open('man_data.txt','wb') as man_flie, open('other_data.txt','wb') as other_file:
+		pickle.dump(man,man_flie)
+		pickle.dump(other,other_file)
+except IOError as err:
+	print("File error"+str(err))
+except pickle.PickleError as perr:
+	print('Pickling error:'+str(perr))
+
+保存后的数据man_data.txt 二进制数据
+€暳      ]??Is this the right room for an argument?攲No you haven't!攲When?攲No you didn't!攲You didn't!攲You did not!攲=Ah! (taking out his wallet and paying) Just the five minutes.攲You most certainly did not!攲Oh no you didn't!攲Oh no you didn't!攲 Oh look, this isn't an argument!攲No it isn't!攲It's just contradiction!攲It IS!攲You just contradicted me!攲You DID!攲You did just then!攲"(exasperated) Oh, this is futile!!攲
+Yes it is!攅.
+
+
+读取
+>>> import pickle
+>>> import nester
+>>> new_man=[]
+>>> try:
+	with open('man_data.txt','rb') as man_file:
+		new_man=pickle.load(man_file)
+except IOError as err:
+	print('file error:'+str(err))
+except pickle.PickleError as perr:
+	print('Pickling error:'+str(perr))
+
+	
+>>> nester.print_lol(new_man)
+Is this the right room for an argument?
+No you haven't!
+When?
+....
+You DID!
+You did just then!
+(exasperated) Oh, this is futile!!
+Yes it is!
+
+
+显示第一句和最后一句
+>>> print(new_man[0])
+Is this the right room for an argument?
+>>> print(new_man[-1])
+Yes it is!
+>>> 
+
+pickle.dump()函数将数据保存到磁盘
+pickle.load()函数从磁盘恢复数据
+
+"""第五章 推到数据"""
